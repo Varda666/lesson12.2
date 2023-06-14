@@ -1,18 +1,23 @@
 from utils import arrs
 import pytest
 
-def test_get():
-    assert arrs.get([1, 2, 3], 1, "test") == 2
+
+@pytest.fixture
+def array():
+    return [1, 2, 3, 4]
+
+def test_get(array):
+    assert arrs.get(array, 1, "test") == 2
     assert arrs.get([], 0, "test") == "test"
 
-def test_get_index_error():
+def test_get_index_error(array):
     with pytest.raises(IndexError):
-        arrs.get(['one', 3.14, 20], 4)
+        arrs.get(array, 4)
 
 
-def test_slice():
-    assert arrs.my_slice([1, 2, 3, 4], 1, 3) == [2, 3]
-    assert arrs.my_slice([1, 2, 3], 1) == [2, 3]
+def test_slice(array):
+    assert arrs.my_slice(array, 1, 3) == [2, 3]
+    assert arrs.my_slice(array, 1) == [2, 3, 4]
     assert arrs.my_slice([], 1) == []
-    assert arrs.my_slice([1, 2, 3], -4) == [1, 2, 3]
-    assert arrs.my_slice([1, 2, 3], -2) == [2, 3]
+    assert arrs.my_slice(array, -4) == [1, 2, 3, 4]
+    assert arrs.my_slice(array, -2) == [3, 4]
